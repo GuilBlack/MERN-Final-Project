@@ -1,27 +1,28 @@
-import React, { useContext } from "react";
-import { AuthContext } from "./Contexts/AuthContext";
+import React from "react";
+import Navbar from "./Components/Navbar";
+import Home from "./Components/Home";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.scss";
 
 function App() {
-	const { user, setUser, isAuthenticated, setIsAuthenticated } = useContext(
-		AuthContext
-	);
-	console.log(user);
-	console.log(isAuthenticated);
 	return (
 		<div className="App">
-			<header className="App-header">
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
+			<Router>
+				<Navbar />
+				<Switch>
+					<Route exact path="/">
+						<Home />
+					</Route>
+					<Route exact path="/login">
+						<Login />
+					</Route>
+					<Route exact path="/register">
+						<Register />
+					</Route>
+				</Switch>
+			</Router>
 		</div>
 	);
 }

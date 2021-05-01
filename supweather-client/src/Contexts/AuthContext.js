@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		authService.checkIfAuthenticated().then((data) => {
-			setUser({ user: { username: data.username } });
+			setUser({ username: data.username });
 			setIsAuthenticated(data.isAuthenticated);
 			setAppIsLoaded(true);
 		});
