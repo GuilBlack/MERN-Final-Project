@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
+import Spinner from "react-bootstrap/Spinner";
+import Container from "react-bootstrap/Container";
 import authService from "../Services/AuthService";
+import { Row } from "react-bootstrap";
 
 export const AuthContext = createContext();
 
@@ -19,7 +22,13 @@ const AuthProvider = ({ children }) => {
 	return (
 		<div>
 			{!isAppLoaded ? (
-				<h1>Loading...</h1>
+				<Container className="justify-content-center">
+					<Row className="justify-content-center">
+						<Spinner animation="border" role="status">
+							<span className="sr-only">Loading...</span>
+						</Spinner>
+					</Row>
+				</Container>
 			) : (
 				<AuthContext.Provider
 					value={{

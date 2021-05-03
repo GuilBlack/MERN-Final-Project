@@ -43,11 +43,8 @@ function NavBar(props) {
 		return (
 			<Navbar.Text>
 				{user.username}
-				<Button
-					variant="outline-danger"
-					type="button"
-					onClick={logout()}
-				>
+				{"  "}
+				<Button variant="outline-danger" type="button" onClick={logout}>
 					Logout
 				</Button>
 			</Navbar.Text>
@@ -65,7 +62,9 @@ function NavBar(props) {
 						className="d-inline-block align-top"
 						alt="Supweather logo"
 					/>
-					{"\u00A0\u00A0"}Supweather
+					{"  "}
+					<span className="text-success">Sup</span>
+					<span className="text-primary">weather</span>
 				</Navbar.Brand>
 			</Link>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
