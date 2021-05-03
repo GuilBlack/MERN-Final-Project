@@ -82,16 +82,24 @@ const getCities = (req, res) => {
 						)
 					);
 				});
-				Promise.all(promises).then((results) => {
-					cities = [];
-					results.forEach((response) => {
-						cities.push(response.data);
+				Promise.all(promises)
+					.then((results) => {
+						cities = [];
+						results.forEach((response) => {
+							cities.push(response.data);
+						});
+						res.status(200).json({
+							cities: cities,
+							isAuthenticated: true,
+						});
+					})
+					.catch((err) => {
+						res.status(503).json({
+							message:
+								"There was an error while contacting the weather API please try again later.",
+							msgError: true,
+						});
 					});
-					res.status(200).json({
-						cities: cities,
-						isAuthenticated: true,
-					});
-				});
 			}
 		});
 };
