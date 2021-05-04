@@ -29,7 +29,11 @@ function CityItem(props) {
 			return ClearLight;
 		} else if (city.weather[0].main === "Clouds") {
 			return CloudsLight;
-		} else if (city.weather[0].main === "Rain") {
+		} else if (
+			city.weather[0].main === "Rain" ||
+			city.weather[0].main === "Drizzle" ||
+			city.weather[0].main === "Haze"
+		) {
 			return RainLight;
 		} else if (city.weather[0].main === "Snow") {
 			return SnowLight;
@@ -48,7 +52,7 @@ function CityItem(props) {
 				})
 			}
 		>
-			<Card.Header>{`${city.name}, ${city.sys.country}`}</Card.Header>
+			<Card.Header className="font-weight-bold">{`${city.name}, ${city.sys.country}`}</Card.Header>
 			<div
 				style={{
 					width: "100%",

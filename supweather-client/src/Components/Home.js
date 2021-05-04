@@ -44,14 +44,16 @@ function Home(props) {
 						<h3 className="text-alert">{message}</h3>
 					</Row>
 				) : null}
-				<Row>
+				<Row className="flex-row flex-nowrap overflow-auto">
 					<Col style={{ marginTop: "1.5em", marginBottom: "1.5em" }}>
 						<Card
 							style={{ width: "20em", height: "30em" }}
 							className="bg-dark text-light"
 							onClick={() => props.history.push("/add-city")}
 						>
-							<Card.Header>Add a City</Card.Header>
+							<Card.Header className="font-weight-bold">
+								Add a City
+							</Card.Header>
 							<div
 								style={{
 									width: "100%",
