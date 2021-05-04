@@ -22,31 +22,56 @@ const createCity = (req, res) => {
 				lat: data.coord.lat,
 				lon: data.coord.lon,
 			});
-			city.save((err) => {
-				if (err)
-					res.status(500).json({
-						message:
-							"An Error Occured while querying the database.",
-						msgError: true,
-					});
-				else {
-					req.user.cities.push(city);
-					req.user.save((err) => {
-						if (err)
-							res.status(500).json({
+			User.findById({ _id: req.user._id })
+				.populate("cities")
+				.exec((err, doc) => {
+					if (err)
+						res.status(500).json({
+							message:
+								"An Error Occured while querying the database.",
+							msgError: true,
+						});
+					else {
+						var doesCityExists = doc.cities.find((obj) => {
+							return obj.cityId == city.cityId;
+						});
+
+						if (doesCityExists == undefined) {
+							city.save((err) => {
+								if (err)
+									res.status(500).json({
+										message:
+											"An Error Occured while querying the database.",
+										msgError: true,
+									});
+								else {
+									req.user.cities.push(city);
+									req.user.save((err) => {
+										if (err)
+											res.status(500).json({
+												message:
+													"An Error Occured while querying the database.",
+												msgError: true,
+											});
+										else {
+											res.status(201).json({
+												message:
+													"city successfully created.",
+												msgError: false,
+											});
+										}
+									});
+								}
+							});
+						} else {
+							res.status(409).json({
 								message:
-									"An Error Occured while querying the database.",
+									"You already have access to this city.",
 								msgError: true,
 							});
-						else {
-							res.status(201).json({
-								message: "city successfully created",
-								msgError: false,
-							});
 						}
-					});
-				}
-			});
+					}
+				});
 		})
 		.catch((err) => {
 			if (err.response) {
