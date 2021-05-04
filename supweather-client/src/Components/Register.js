@@ -132,7 +132,7 @@ function Register(props) {
 					onSubmit={onSubmit}
 					id="registerForm"
 				>
-					<h2>Sign in</h2>
+					<h2>Register</h2>
 					<Form.Group controlId="username">
 						<Form.Label>Username</Form.Label>
 						<Form.Control
