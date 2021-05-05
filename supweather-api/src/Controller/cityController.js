@@ -155,7 +155,7 @@ const getCity = (req, res) => {
 						)
 						.then((response) => {
 							res.status(200).json({
-								cities: response.data,
+								city: response.data,
 								isAuthenticated: true,
 							});
 						})
