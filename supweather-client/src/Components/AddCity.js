@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import cityService from "../Services/CityService";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import countryList from "../Helpers/CountryHelper";
+import countryList from "../Data/CountryHelper";
 import { Container } from "react-bootstrap";
 
 function AddCity(props) {

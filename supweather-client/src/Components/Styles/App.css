@@ -1,0 +1,9 @@
+.card-bg-dark {
+	background: rgb(1, 5, 122);
+	background: linear-gradient(
+		180deg,
+		rgba(1, 5, 122, 1) 0%,
+		rgba(57, 30, 144, 1) 52%,
+		rgba(113, 27, 134, 1) 100%
+	);
+}
