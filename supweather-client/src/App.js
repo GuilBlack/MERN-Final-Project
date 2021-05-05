@@ -5,7 +5,7 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import CityDetails from "./Components/CityDetails";
 import AddCity from "./Components/AddCity";
-import Container from "react-bootstrap/Container";
+import NotFound from "./Components/NotFound";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.scss";
 
@@ -21,17 +21,16 @@ function App() {
 					<Route exact path="/city-details/:cityid">
 						<CityDetails />
 					</Route>
-					<Container>
-						<Route exact path="/login">
-							<Login />
-						</Route>
-						<Route exact path="/register">
-							<Register />
-						</Route>
-						<Route exact path="/add-city">
-							<AddCity />
-						</Route>
-					</Container>
+					<Route exact path="/login">
+						<Login />
+					</Route>
+					<Route exact path="/register">
+						<Register />
+					</Route>
+					<Route exact path="/add-city">
+						<AddCity />
+					</Route>
+					<Route exact path="*" component={NotFound} />
 				</Switch>
 			</BrowserRouter>
 		</div>
