@@ -5,6 +5,7 @@ import authService from "../Services/AuthService";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Redirect } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 function Login(props) {
 	const [user, setUser] = useState({ username: "", password: "" });
@@ -39,14 +40,13 @@ function Login(props) {
 
 	const onChange = (event) => {
 		setUser({ ...user, [event.target.name]: event.target.value });
-		console.log(user);
 	};
 
 	if (authContext.isAuthenticated) {
 		return <Redirect to="/" />;
 	} else {
 		return (
-			<div>
+			<Container>
 				<Form
 					noValidate
 					validated={validated}
@@ -94,7 +94,7 @@ function Login(props) {
 						!
 					</Form.Text>
 				</Form>
-			</div>
+			</Container>
 		);
 	}
 }

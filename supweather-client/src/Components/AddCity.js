@@ -6,6 +6,7 @@ import cityService from "../Services/CityService";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import countryList from "../Helpers/CountryHelper";
+import { Container } from "react-bootstrap";
 
 function AddCity(props) {
 	const authContext = useContext(AuthContext);
@@ -36,6 +37,7 @@ function AddCity(props) {
 					props.history.push("/");
 				}
 			});
+			setValidated(true);
 		}
 	};
 
@@ -51,14 +53,13 @@ function AddCity(props) {
 		}
 
 		setCity({ ...city, [event.target.name]: event.target.value });
-		console.log(city);
 	};
 
 	if (!authContext.isAuthenticated) {
 		return <Redirect to="/" />;
 	} else {
 		return (
-			<div>
+			<Container>
 				<Form
 					noValidate
 					validated={validated}
@@ -103,7 +104,7 @@ function AddCity(props) {
 						{message ? message : null}
 					</Form.Text>
 				</Form>
-			</div>
+			</Container>
 		);
 	}
 }

@@ -5,6 +5,7 @@ import authService from "../Services/AuthService";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Redirect, withRouter } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 function Register(props) {
 	const [user, setUser] = useState({ username: "", password: "" });
@@ -62,7 +63,6 @@ function Register(props) {
 		if (event.target.name !== "confirmPassword") {
 			setUser({ ...user, [event.target.name]: event.target.value });
 		}
-		console.log(user);
 	};
 
 	const checkInputValidity = (inputName) => {
@@ -125,7 +125,7 @@ function Register(props) {
 		return <Redirect to="/" />;
 	} else {
 		return (
-			<div>
+			<Container>
 				<Form
 					noValidate
 					validated={validated}
@@ -189,7 +189,7 @@ function Register(props) {
 						!
 					</Form.Text>
 				</Form>
-			</div>
+			</Container>
 		);
 	}
 }
