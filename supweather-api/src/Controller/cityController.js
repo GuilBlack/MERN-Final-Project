@@ -180,30 +180,55 @@ const getCity = (req, res) => {
 };
 
 const deleteCity = (req, res) => {
-	City.findOneAndDelete({ cityId: req.body.cityid }, (err, doc) => {
-		if (err)
-			res.status(500).json({
-				message: "An Error Occured while querying the database.",
-				msgError: true,
-			});
-		if (doc) {
-			req.user.cities.splice(doc, 1);
-			req.user.save((err) => {
-				if (err)
-					res.status(500).json({
-						message:
-							"An Error Occured while querying the database.",
+	User.findById({ _id: req.user._id })
+		.populate("cities")
+		.exec((err, user) => {
+			if (err)
+				res.status(500).json({
+					message: "An Error Occured while querying the database.",
+					msgError: true,
+				});
+			else {
+				let city = user.cities.find((obj) => {
+					return obj.cityId == req.body.cityid;
+				});
+
+				if (city == undefined)
+					res.status(404).json({
+						message: "City not found.",
 						msgError: true,
 					});
 				else {
-					res.status(200).json({
-						message: "city successfully removed",
-						msgError: false,
+					console.log(city._id);
+					// res.status(200).json({ cityId: city._id, msgError: false });
+					City.findOneAndDelete({ _id: city._id }, (err, doc) => {
+						if (err)
+							res.status(500).json({
+								message:
+									"An Error Occured while querying the database.",
+								msgError: true,
+							});
+						if (doc) {
+							req.user.cities.splice(doc, 1);
+							req.user.save((err) => {
+								if (err)
+									res.status(500).json({
+										message:
+											"An Error Occured while querying the database.",
+										msgError: true,
+									});
+								else {
+									res.status(200).json({
+										message: "city successfully removed",
+										msgError: false,
+									});
+								}
+							});
+						}
 					});
 				}
-			});
-		}
-	});
+			}
+		});
 };
 
 module.exports = {
