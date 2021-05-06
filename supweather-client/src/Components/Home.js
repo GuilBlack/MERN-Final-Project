@@ -67,6 +67,7 @@ function Home(props) {
 									width: "23em",
 									height: "38em",
 									margin: "auto",
+									cursor: "pointer",
 								}}
 								className={`${themeHelper.cardTheme(theme)}`}
 								onClick={() => props.history.push("/add-city")}
@@ -106,7 +107,10 @@ function Home(props) {
 											marginLeft: "1em",
 										}}
 									>
-										<CityItem city={e} />
+										<CityItem
+											city={e}
+											setMessage={setMessage}
+										/>
 									</Col>
 								);
 							})

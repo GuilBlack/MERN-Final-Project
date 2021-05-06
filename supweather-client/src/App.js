@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./Styles/App.css";
 import "./Styles/App.scss";
 import { Helmet } from "react-helmet";
+import Delete from "./Components/Delete";
 
 function App() {
 	const { theme } = useContext(ThemeContext);
@@ -38,6 +39,9 @@ function App() {
 					</Route>
 					<Route exact path="/add-city">
 						<AddCity />
+					</Route>
+					<Route exact path="/delete">
+						<Delete />
 					</Route>
 					<Route exact path="*" component={NotFound} />
 				</Switch>

@@ -64,6 +64,31 @@ const cityService = {
 				}
 			});
 	},
+
+	deleteCity: (cityId) => {
+		console.log(cityId);
+		return axios
+			.delete("/city/delete", {
+				data: {
+					cityid: cityId,
+				},
+			})
+			.then((res) => res.data)
+			.catch((err) => {
+				if (err.response) {
+					if (err.response.status === 401) {
+						return { message: "Unauthorized", msgError: true };
+					} else {
+						return err.response.data;
+					}
+				} else {
+					return {
+						message: "Houston, we have a problem.",
+						msgError: true,
+					};
+				}
+			});
+	},
 };
 
 export default cityService;
