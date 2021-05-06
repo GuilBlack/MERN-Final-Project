@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import { withRouter } from "react-router";
+import { ThemeContext } from "../../Contexts/ThemeContext";
+import themeHelper from "../../Helper/ThemeHelper";
 import CloudsLight from "../../Images/cloudy_dark.png";
 import ClearLight from "../../Images/sunny_dark.png";
 import RainLight from "../../Images/raining_dark.png";
@@ -14,46 +16,41 @@ import SnowDark from "../../Images/snowing_light.png";
 import StormDark from "../../Images/storm_light.png";
 
 function CityItem(props) {
-	const [city, setCity] = useState(props.city);
-	console.log(props.city);
-	console.log(city.weather[0].main);
-
-	// useState(() => {
-	// 	setCity(props.city);
-	// 	console.log(city);
-	// 	console.log(city.weather[0].main);
-	// }, []);
+	const city = props.city;
+	const { theme } = useContext(ThemeContext);
 
 	const checkWeather = () => {
 		if (city.weather[0].main === "Clear") {
-			return ClearLight;
+			return themeHelper.chooseImage(theme, ClearLight, ClearDark);
 		} else if (city.weather[0].main === "Clouds") {
-			return CloudsLight;
+			return themeHelper.chooseImage(theme, CloudsLight, CloudsDark);
 		} else if (
 			city.weather[0].main === "Rain" ||
 			city.weather[0].main === "Drizzle" ||
 			city.weather[0].main === "Haze" ||
 			city.weather[0].main === "Mist"
 		) {
-			return RainLight;
+			return themeHelper.chooseImage(theme, RainLight, RainDark);
 		} else if (city.weather[0].main === "Snow") {
-			return SnowLight;
+			return themeHelper.chooseImage(theme, SnowLight, SnowDark);
 		} else {
-			return StormLight;
+			return themeHelper.chooseImage(theme, StormLight, StormDark);
 		}
 	};
 
 	return (
 		<Card
-			style={{ width: "20em", height: "30em" }}
-			className="bg-dark text-light"
+			style={{ width: "23em", height: "38em", marginLeft: "1em" }}
+			className={`${themeHelper.cardTheme(theme)}`}
 			onClick={() =>
 				props.history.push({
 					pathname: `/city-details/${city.id}`,
 				})
 			}
 		>
-			<Card.Header className="font-weight-bold">{`${city.name}, ${city.sys.country}`}</Card.Header>
+			<Card.Header
+				className={`font-weight-bold ${themeHelper.textTheme(theme)}`}
+			>{`${city.name}, ${city.sys.country}`}</Card.Header>
 			<div
 				style={{
 					width: "100%",
@@ -71,18 +68,18 @@ function CityItem(props) {
 				/>
 				<Card.Title
 					className="font-weight-bold text-primary"
-					style={{ fontSize: "2em" }}
+					style={{ fontSize: "4em" }}
 				>
 					{`${city.main.temp}\u00B0`}
 				</Card.Title>
 			</div>
-			<Card.Text>
+			<Card.Text style={{ marginTop: "2em" }}>
 				<div
 					className="text-success"
 					style={{
 						float: "left",
 						marginLeft: "1em",
-						fontSize: "1.5em",
+						fontSize: "2em",
 						textAlign: "center",
 					}}
 				>
@@ -95,7 +92,7 @@ function CityItem(props) {
 					style={{
 						float: "right",
 						marginRight: "1em",
-						fontSize: "1.5em",
+						fontSize: "2em",
 						textAlign: "center",
 					}}
 				>

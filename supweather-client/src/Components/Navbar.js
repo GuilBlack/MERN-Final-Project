@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import authService from "../Services/AuthService";
 import { AuthContext } from "../Contexts/AuthContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
+import themeHelper from "../Helper/ThemeHelper";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import logo from "../MERN-Logo.png";
@@ -10,6 +12,8 @@ function NavBar(props) {
 	const { user, setUser, isAuthenticated, setIsAuthenticated } = useContext(
 		AuthContext
 	);
+
+	const { theme, setTheme } = useContext(ThemeContext);
 
 	const logout = () => {
 		authService.logout().then((data) => {
@@ -51,8 +55,23 @@ function NavBar(props) {
 		);
 	};
 
+	const changeTheme = () => {
+		if (theme === "dark") {
+			setTheme("light");
+			localStorage.setItem("theme", "light");
+			document.querySelector("#light").style.display = "none";
+			document.querySelector("#dark").style.display = "";
+		} else {
+			setTheme("dark");
+			localStorage.setItem("theme", "dark");
+			document.querySelector("#dark").style.display = "none";
+			document.querySelector("#light").style.display = "";
+		}
+		console.log(localStorage.getItem("theme"));
+	};
+
 	return (
-		<Navbar variant="dark" bg="dark" expand="lg">
+		<Navbar className={`${themeHelper.navbarTheme(theme)}`} expand="lg">
 			<Link to="/">
 				<Navbar.Brand>
 					<img
@@ -72,6 +91,36 @@ function NavBar(props) {
 				id="basic-navbar-nav"
 				className="justify-content-end"
 			>
+				<button
+					type="button"
+					id="lightDark"
+					className="no-style-button"
+					onClick={changeTheme}
+				>
+					<span
+						className="material-icons"
+						id="light"
+						style={{
+							marginTop: "7px",
+							fontSize: "25px",
+							color: "#e5e5e5",
+						}}
+					>
+						light_mode
+					</span>
+					<span
+						className="material-icons"
+						id="dark"
+						style={{
+							marginTop: "7px",
+							fontSize: "25px",
+							color: "#343a40",
+							display: "none",
+						}}
+					>
+						dark_mode
+					</span>
+				</button>
 				{isAuthenticated ? displayUser() : authButtons()}
 			</Navbar.Collapse>
 		</Navbar>

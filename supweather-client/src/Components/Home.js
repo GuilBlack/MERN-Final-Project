@@ -1,15 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import { AuthContext } from "../Contexts/AuthContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
+import themeHelper from "../Helper/ThemeHelper";
 import cityService from "../Services/CityService";
 import { withRouter } from "react-router-dom";
 import AddLight from "../Images/add_icon_light.svg";
-import AddDark from "../Images/add_icon_light.svg";
+import AddDark from "../Images/add_icon_dark.svg";
 import CityItem from "./CardItems/CityItem";
 
 function Home(props) {
 	const [cities, setCities] = useState(null);
 	const [message, setMessage] = useState(null);
+	const { theme } = useContext(ThemeContext);
 	const authContext = useContext(AuthContext);
 	console.log(authContext.isAuthenticated);
 
@@ -29,7 +32,7 @@ function Home(props) {
 	if (!authContext.isAuthenticated) {
 		return (
 			<Container>
-				<h1>
+				<h1 className={`${themeHelper.textTheme(theme)}`}>
 					Hello gents and ladies! You must have an account to access
 					lots of wonderful features :3
 				</h1>
@@ -37,64 +40,80 @@ function Home(props) {
 		);
 	} else {
 		return (
-			<Container>
-				<Row className="justify-content-center">
-					<h1>Today</h1>
-				</Row>
-				{message ? (
-					<Row className="justify-content-center">
-						<h3 className="text-danger">{message}</h3>
+			<Container fluid>
+				<div style={{ marginRight: "5em", marginLeft: "5em" }}>
+					<Row
+						className="justify-content-center"
+						style={{ marginTop: "2em" }}
+					>
+						<h1 className={`${themeHelper.textTheme(theme)}`}>
+							Today
+						</h1>
 					</Row>
-				) : null}
-				<Row>
-					<Col style={{ marginTop: "1.5em", marginBottom: "1.5em" }}>
-						<Card
-							style={{ width: "20em", height: "30em" }}
-							className="bg-dark text-light"
-							onClick={() => props.history.push("/add-city")}
+					{message ? (
+						<Row className="justify-content-center">
+							<h3 className="text-danger">{message}</h3>
+						</Row>
+					) : null}
+					<Row className="flex-row flex-nowrap overflow-auto">
+						<Col
+							style={{
+								marginTop: "1.5em",
+								marginBottom: "1.5em",
+							}}
 						>
-							<Card.Header className="font-weight-bold">
-								Add a City
-							</Card.Header>
-							<div
-								style={{
-									width: "100%",
-									textAlign: "center",
-									marginTop: "1em",
-								}}
+							<Card
+								style={{ width: "23em", height: "38em" }}
+								className={`${themeHelper.cardTheme(theme)}`}
+								onClick={() => props.history.push("/add-city")}
 							>
-								<Card.Img
-									src={AddLight}
+								<Card.Header className="font-weight-bold">
+									Add a City
+								</Card.Header>
+								<div
 									style={{
-										fill: "white",
-										width: "15em",
-									}}
-								/>
-							</div>
-						</Card>
-					</Col>
-					{cities ? (
-						cities.map((e, i) => {
-							return (
-								<Col
-									key={i}
-									style={{
-										marginTop: "1.5em",
-										marginBottom: "1.5em",
+										width: "100%",
+										textAlign: "center",
+										marginTop: "1em",
 									}}
 								>
-									<CityItem city={e} />
-								</Col>
-							);
-						})
-					) : (
-						<Col>
-							<Spinner animation="border" role="status">
-								<span className="sr-only">Loading...</span>
-							</Spinner>
+									<Card.Img
+										src={themeHelper.chooseImage(
+											theme,
+											AddLight,
+											AddDark
+										)}
+										style={{
+											fill: "white",
+											width: "15em",
+										}}
+									/>
+								</div>
+							</Card>
 						</Col>
-					)}
-				</Row>
+						{cities ? (
+							cities.map((e, i) => {
+								return (
+									<Col
+										key={i}
+										style={{
+											marginTop: "1.5em",
+											marginBottom: "1.5em",
+										}}
+									>
+										<CityItem city={e} />
+									</Col>
+								);
+							})
+						) : (
+							<Col>
+								<Spinner animation="border" role="status">
+									<span className="sr-only">Loading...</span>
+								</Spinner>
+							</Col>
+						)}
+					</Row>
+				</div>
 			</Container>
 		);
 	}

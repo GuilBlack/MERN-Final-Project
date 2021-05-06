@@ -5,7 +5,9 @@ import authService from "../Services/AuthService";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthContext";
 import { Redirect, withRouter } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Jumbotron } from "react-bootstrap";
+import { ThemeContext } from "../Contexts/ThemeContext";
+import themeHelper from "../Helper/ThemeHelper";
 
 function Register(props) {
 	const [user, setUser] = useState({ username: "", password: "" });
@@ -15,6 +17,7 @@ function Register(props) {
 	const [confirmPasswordWarning, setConfirmPasswordWarning] = useState(null);
 	const [validated, setValidated] = useState(false);
 	const authContext = useContext(AuthContext);
+	const { theme } = useContext(ThemeContext);
 
 	const onSubmit = (event) => {
 		event.preventDefault();
@@ -126,69 +129,77 @@ function Register(props) {
 	} else {
 		return (
 			<Container>
-				<Form
-					noValidate
-					validated={validated}
-					onSubmit={onSubmit}
-					id="registerForm"
+				<Jumbotron
+					className={`${themeHelper.jumbotronTheme(theme)}`}
+					style={{ marginTop: "5em" }}
 				>
-					<h2>Register</h2>
-					<Form.Group controlId="username">
-						<Form.Label>Username</Form.Label>
-						<Form.Control
-							required
-							minLength="3"
-							maxLength="16"
-							type="text"
-							name="username"
-							placeholder="Enter username"
-							onChange={onChange}
-						/>
+					<Form
+						noValidate
+						validated={validated}
+						onSubmit={onSubmit}
+						id="registerForm"
+					>
+						<h2>Register</h2>
+						<Form.Group controlId="username">
+							<Form.Label>Username</Form.Label>
+							<Form.Control
+								required
+								minLength="3"
+								maxLength="16"
+								type="text"
+								name="username"
+								placeholder="Enter username"
+								onChange={onChange}
+							/>
+							<Form.Text className="text-danger">
+								{usernameWarning}
+							</Form.Text>
+						</Form.Group>
+						<Form.Group controlId="password">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								required
+								minLength="8"
+								type="password"
+								name="password"
+								onChange={onChange}
+								placeholder="Enter password"
+							/>
+							<Form.Text className="text-danger">
+								{passwordWarning}
+							</Form.Text>
+						</Form.Group>
+						<Form.Group controlId="confirmPassword">
+							<Form.Label>Confirm Password</Form.Label>
+							<Form.Control
+								required
+								type="password"
+								name="confirmPassword"
+								onChange={onChange}
+								placeholder="Enter password"
+							/>
+							<Form.Text className="text-danger">
+								{confirmPasswordWarning}
+							</Form.Text>
+						</Form.Group>
+						<Button variant="primary" type="submit">
+							Register
+						</Button>
 						<Form.Text className="text-danger">
-							{usernameWarning}
+							{message ? message : null}
 						</Form.Text>
-					</Form.Group>
-					<Form.Group controlId="password">
-						<Form.Label>Password</Form.Label>
-						<Form.Control
-							required
-							minLength="8"
-							type="password"
-							name="password"
-							onChange={onChange}
-							placeholder="Enter password"
-						/>
-						<Form.Text className="text-danger">
-							{passwordWarning}
+						<Form.Text className="text-muted">
+							Already have an account? Please click{" "}
+							<Link
+								to="/login"
+								className={`${themeHelper.linkTheme(theme)}`}
+							>
+								here
+							</Link>
+							!
 						</Form.Text>
-					</Form.Group>
-					<Form.Group controlId="confirmPassword">
-						<Form.Label>Confirm Password</Form.Label>
-						<Form.Control
-							required
-							type="password"
-							name="confirmPassword"
-							onChange={onChange}
-							placeholder="Enter password"
-						/>
-						<Form.Text className="text-danger">
-							{confirmPasswordWarning}
-						</Form.Text>
-					</Form.Group>
-					<Button variant="primary" type="submit">
-						Register
-					</Button>
-					<Form.Text className="text-danger">
-						{message ? message : null}
-					</Form.Text>
-					<Form.Text className="text-muted">
-						Already have an account? Please click{" "}
-						<Link to="/login">
-							<span className="link-success">here</span>
-						</Link>
-						!
-					</Form.Text>
-				</Form>
+					</Form>
+				</Jumbotron>
 			</Container>
 		);
 	}

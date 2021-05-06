@@ -1,0 +1,49 @@
+.app-card-dark {
+	background: rgb(1, 5, 122);
+	background: linear-gradient(
+		180deg,
+		rgba(1, 5, 122, 1) 0%,
+		rgba(57, 30, 144, 1) 52%,
+		rgba(113, 27, 134, 1) 100%
+	);
+}
+
+.app-card-light {
+	background-color: #f7f7f7;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.no-style-button {
+	background: transparent;
+	box-shadow: 0px 0px 0px transparent;
+	border: 0px solid transparent;
+	text-shadow: 0px 0px 0px transparent;
+}
+
+.app-text-dark {
+	color: black;
+}
+
+.app-navbar-shadow {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.app-jumbotron-light {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.app-jumbotron-dark {
+	background-color: #432c85 !important;
+}
+
+.app-link-light {
+	color: #003eff;
+}
+
+.app-link-dark {
+	color: #00ff9b;
+}
+
+.app-link-dark:hover {
+	color: #24ce8a;
+}

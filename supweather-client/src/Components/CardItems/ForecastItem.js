@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card } from "react-bootstrap";
 import { withRouter } from "react-router";
+import { ThemeContext } from "../../Contexts/ThemeContext";
+import themeHelper from "../../Helper/ThemeHelper";
+
 import CloudsLight from "../../Images/cloudy_dark.png";
 import ClearLight from "../../Images/sunny_dark.png";
 import RainLight from "../../Images/raining_dark.png";
@@ -15,7 +18,7 @@ import StormDark from "../../Images/storm_light.png";
 
 function CityItem(props) {
 	const forecast = props.forecast;
-	console.log(props.forecast);
+	const { theme } = useContext(ThemeContext);
 	const days = [
 		"Sunday",
 		"Monday",
@@ -29,29 +32,31 @@ function CityItem(props) {
 
 	const checkWeather = () => {
 		if (forecast.weather[0].main === "Clear") {
-			return ClearLight;
+			return themeHelper.chooseImage(theme, ClearLight, ClearDark);
 		} else if (forecast.weather[0].main === "Clouds") {
-			return CloudsLight;
+			return themeHelper.chooseImage(theme, CloudsLight, CloudsDark);
 		} else if (
 			forecast.weather[0].main === "Rain" ||
 			forecast.weather[0].main === "Drizzle" ||
 			forecast.weather[0].main === "Haze" ||
 			forecast.weather[0].main === "Mist"
 		) {
-			return RainLight;
+			return themeHelper.chooseImage(theme, RainLight, RainDark);
 		} else if (forecast.weather[0].main === "Snow") {
-			return SnowLight;
+			return themeHelper.chooseImage(theme, SnowLight, SnowDark);
 		} else {
-			return StormLight;
+			return themeHelper.chooseImage(theme, StormLight, StormDark);
 		}
 	};
 
 	return (
 		<Card
-			style={{ width: "20em", height: "30em" }}
-			className="bg-dark text-light"
+			style={{ width: "22em", height: "33em" }}
+			className={`${themeHelper.cardTheme(theme)}`}
 		>
-			<Card.Header className="font-weight-bold">
+			<Card.Header
+				className={`font-weight-bold ${themeHelper.textTheme(theme)}`}
+			>
 				{`${days[date.getDay()]}, ${date.toDateString().substr(4)}`}
 			</Card.Header>
 			<div
