@@ -55,7 +55,7 @@ function Home(props) {
 							<h3 className="text-danger">{message}</h3>
 						</Row>
 					) : null}
-					<Row className="flex-row flex-nowrap overflow-auto">
+					<Row>
 						<Col
 							style={{
 								marginTop: "1.5em",
@@ -63,7 +63,11 @@ function Home(props) {
 							}}
 						>
 							<Card
-								style={{ width: "23em", height: "38em" }}
+								style={{
+									width: "23em",
+									height: "38em",
+									margin: "auto",
+								}}
 								className={`${themeHelper.cardTheme(theme)}`}
 								onClick={() => props.history.push("/add-city")}
 							>
@@ -99,6 +103,7 @@ function Home(props) {
 										style={{
 											marginTop: "1.5em",
 											marginBottom: "1.5em",
+											marginLeft: "1em",
 										}}
 									>
 										<CityItem city={e} />

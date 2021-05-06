@@ -40,7 +40,7 @@ function CityItem(props) {
 
 	return (
 		<Card
-			style={{ width: "23em", height: "38em", marginLeft: "1em" }}
+			style={{ width: "23em", height: "38em", margin: "auto" }}
 			className={`${themeHelper.cardTheme(theme)}`}
 			onClick={() =>
 				props.history.push({
@@ -50,7 +50,16 @@ function CityItem(props) {
 		>
 			<Card.Header
 				className={`font-weight-bold ${themeHelper.textTheme(theme)}`}
-			>{`${city.name}, ${city.sys.country}`}</Card.Header>
+			>
+				{`${city.name}, ${city.sys.country}`}{" "}
+				<span
+					style={{ float: "right", fontSize: "25px", color: "red" }}
+					className="material-icons"
+					onClick={() => console.log("hello")}
+				>
+					delete_forever
+				</span>
+			</Card.Header>
 			<div
 				style={{
 					width: "100%",
