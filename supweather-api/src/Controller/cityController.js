@@ -200,8 +200,7 @@ const deleteCity = (req, res) => {
 					});
 				else {
 					console.log(city._id);
-					// res.status(200).json({ cityId: city._id, msgError: false });
-					City.findOneAndDelete({ _id: city._id }, (err, doc) => {
+					City.findByIdAndDelete(city._id, (err, doc) => {
 						if (err)
 							res.status(500).json({
 								message:
@@ -209,7 +208,13 @@ const deleteCity = (req, res) => {
 								msgError: true,
 							});
 						if (doc) {
-							req.user.cities.splice(doc, 1);
+							console.log(doc);
+							console.log("before:");
+							console.log(req.user.cities);
+							const index = req.user.cities.indexOf(doc._id);
+							req.user.cities.splice(index, 1);
+							console.log("after:");
+							console.log(req.user.cities);
 							req.user.save((err) => {
 								if (err)
 									res.status(500).json({
