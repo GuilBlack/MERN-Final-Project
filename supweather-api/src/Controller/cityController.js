@@ -5,6 +5,7 @@ const City = require("../Models/City");
 const appid = "fe8a035542aca872caaca2fdf86f4825";
 
 const createCity = (req, res) => {
+	//get city from open weather api with info that the user sent
 	axios
 		.get(
 			`https://api.openweathermap.org/data/2.5/weather?q=${encodeURI(
@@ -15,13 +16,13 @@ const createCity = (req, res) => {
 			}
 		)
 		.then((response) => {
-			const data = response.data;
+			const data = response.data; //get data from response
 			const city = new City({
 				name: data.name,
 				cityId: data.id,
 				lat: data.coord.lat,
 				lon: data.coord.lon,
-			});
+			}); //create new city
 			User.findById({ _id: req.user._id })
 				.populate("cities")
 				.exec((err, doc) => {
@@ -34,7 +35,7 @@ const createCity = (req, res) => {
 					else {
 						var doesCityExists = doc.cities.find((obj) => {
 							return obj.cityId == city.cityId;
-						});
+						}); //used to see if the user already has a city like this
 
 						if (doesCityExists == undefined) {
 							city.save((err) => {
@@ -45,7 +46,7 @@ const createCity = (req, res) => {
 										msgError: true,
 									});
 								else {
-									req.user.cities.push(city);
+									req.user.cities.push(city); //saves a ref of the city is the cities that the user have
 									req.user.save((err) => {
 										if (err)
 											res.status(500).json({
@@ -90,6 +91,7 @@ const createCity = (req, res) => {
 };
 
 const getCities = (req, res) => {
+	//get all the cities that the user has
 	User.findById({ _id: req.user._id })
 		.populate("cities")
 		.exec((err, doc) => {
@@ -106,7 +108,8 @@ const getCities = (req, res) => {
 							`https://api.openweathermap.org/data/2.5/weather?id=${city.cityId}&appid=${appid}&units=metric`
 						)
 					);
-				});
+				}); //get all cities info one by one
+				//wait for all the responses
 				Promise.all(promises)
 					.then((results) => {
 						cities = [];
@@ -116,7 +119,7 @@ const getCities = (req, res) => {
 						res.status(200).json({
 							cities: cities,
 							isAuthenticated: true,
-						});
+						}); //give cities to front end
 					})
 					.catch((err) => {
 						res.status(503).json({
@@ -141,7 +144,7 @@ const getCity = (req, res) => {
 			else {
 				var city = doc.cities.find((obj) => {
 					return obj.cityId == req.query.cityid;
-				});
+				}); //used to see if the user already has a city like this
 
 				if (city == undefined)
 					res.status(404).json({
@@ -157,7 +160,7 @@ const getCity = (req, res) => {
 							res.status(200).json({
 								city: response.data,
 								isAuthenticated: true,
-							});
+							}); //gives the specific city info to front end
 						})
 						.catch((err) => {
 							if (err.response) {
@@ -191,7 +194,7 @@ const deleteCity = (req, res) => {
 			else {
 				let city = user.cities.find((obj) => {
 					return obj.cityId == req.body.cityid;
-				});
+				}); //used to see if the user already has a city like this
 
 				if (city == undefined)
 					res.status(404).json({
@@ -200,6 +203,7 @@ const deleteCity = (req, res) => {
 					});
 				else {
 					console.log(city._id);
+					//delete city but return it's value as a doc
 					City.findByIdAndDelete(city._id, (err, doc) => {
 						if (err)
 							res.status(500).json({
@@ -208,13 +212,8 @@ const deleteCity = (req, res) => {
 								msgError: true,
 							});
 						if (doc) {
-							console.log(doc);
-							console.log("before:");
-							console.log(req.user.cities);
 							const index = req.user.cities.indexOf(doc._id);
-							req.user.cities.splice(index, 1);
-							console.log("after:");
-							console.log(req.user.cities);
+							req.user.cities.splice(index, 1); //remove city from user
 							req.user.save((err) => {
 								if (err)
 									res.status(500).json({

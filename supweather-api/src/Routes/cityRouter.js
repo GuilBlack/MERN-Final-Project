@@ -9,9 +9,10 @@ const {
 	deleteCity,
 } = require("../Controller/cityController");
 
+//different routes to access the city controller are defined here
 cityRouter.post(
 	"/add",
-	passport.authenticate("jwt", { session: false }),
+	passport.authenticate("jwt", { session: false }), ////used to see if the user is authorize
 	createCity
 );
 
