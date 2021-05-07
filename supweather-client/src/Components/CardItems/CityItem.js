@@ -20,6 +20,7 @@ function CityItem(props) {
 	const city = props.city;
 	const { theme } = useContext(ThemeContext);
 
+	//see which image assign depending on the weather description
 	const checkWeather = () => {
 		if (city.weather[0].main === "Clear") {
 			return themeHelper.chooseImage(theme, ClearLight, ClearDark);
@@ -40,7 +41,7 @@ function CityItem(props) {
 	};
 
 	const onDelete = () => {
-		console.log(city);
+		//delete city when clicking on the bin
 		cityService.deleteCity(city.id).then((data) => {
 			if (data.msgError) {
 				props.setMessage(data.message);

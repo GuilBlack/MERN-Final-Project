@@ -16,6 +16,7 @@ function CityDetails(props) {
 	const { theme } = useContext(ThemeContext);
 
 	useEffect(() => {
+		//get info on the city
 		if (cityId !== undefined) {
 			cityService.getCity(cityId).then((data) => {
 				if (data.msgError) {

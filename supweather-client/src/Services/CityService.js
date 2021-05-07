@@ -1,5 +1,7 @@
 const axios = require("axios").default;
 
+//service to access the city data from user
+//check back end to understand responses
 const cityService = {
 	getCities: () => {
 		return axios

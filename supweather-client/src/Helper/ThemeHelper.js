@@ -1,3 +1,4 @@
+//used to choose which theme to assign to a component
 const themeHelper = {
 	bodyTheme: (theme) => {
 		if (theme === "dark") {

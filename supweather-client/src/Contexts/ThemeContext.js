@@ -17,7 +17,7 @@ const ThemeProvider = ({ children }) => {
 		}
 		console.log(localStorage.getItem("theme"));
 		setTheme(localStorage.getItem("theme"));
-	}, []);
+	}, []); //sets the theme when app launches
 
 	return (
 		<div>
@@ -30,7 +30,7 @@ const ThemeProvider = ({ children }) => {
 					</Row>
 				</Container>
 			) : (
-				<ThemeContext.Provider
+				<ThemeContext.Provider //provide theme to children elements
 					value={{
 						theme,
 						setTheme,

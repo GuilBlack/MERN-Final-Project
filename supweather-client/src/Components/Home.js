@@ -18,6 +18,7 @@ function Home(props) {
 
 	useEffect(() => {
 		if (authContext.isAuthenticated) {
+			//if authenticated get data from api
 			cityService.getCities().then((data) => {
 				if (data.msgError) {
 					setMessage(data.message);

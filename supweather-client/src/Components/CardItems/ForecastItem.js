@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { ThemeContext } from "../../Contexts/ThemeContext";
@@ -30,6 +30,7 @@ function CityItem(props) {
 	];
 	const date = new Date(forecast.dt * 1000);
 
+	//see which image assign depending on the weather description
 	const checkWeather = () => {
 		if (forecast.weather[0].main === "Clear") {
 			return themeHelper.chooseImage(theme, ClearLight, ClearDark);

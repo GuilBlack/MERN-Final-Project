@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
 			setUser({ username: data.username });
 			setIsAuthenticated(data.isAuthenticated);
 			setAppIsLoaded(true);
-		});
+		}); //when launching the site check if user is already authenticated
 	}, []);
 
 	return (
@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
 					</Row>
 				</Container>
 			) : (
-				<AuthContext.Provider
+				<AuthContext.Provider //using a provider give the user and the authenticity of the user
 					value={{
 						user,
 						setUser,
