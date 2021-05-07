@@ -1,6 +1,10 @@
 const express = require("express");
 // const cors = require("cors");
+const https = require("https");
+const path = require("path");
+const fs = require("fs");
 const cookieParser = require("cookie-parser");
+var RateLimit = require("express-rate-limit");
 const mongoose = require("mongoose");
 const { routes } = require("./src/Routes/appRoutes");
 
@@ -23,13 +27,28 @@ mongoose.connect(
 	}
 );
 
+var limiter = new RateLimit({
+	windowMs: 60 * 1000, // 1 minutes
+	max: 70, // limit each IP to 200 requests per windowMs
+	delayMs: 0, // disable delaying - full speed until the max limit is reached
+});
+
 // app.use(cors());
+app.use(limiter);
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 routes(app);
 
-app.listen(PORT, () => {
+const sslServer = https.createServer(
+	{
+		key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
+		cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem")),
+	},
+	app
+);
+
+sslServer.listen(PORT, () => {
 	console.log(`node express API running on port ${PORT}`);
 });
